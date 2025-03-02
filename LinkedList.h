@@ -35,6 +35,18 @@ class LinkedList {
         newList->next = newList;
     }
 
+    LinkedList(LinkedList && fromLL){
+        root = fromLL.root;
+        fromLL.root = nullptr;
+    }
+    
+    LinkedList& operator=(LinkedList&& fromLL) noexcept {
+        if (this != &fromLL) {              
+            root = fromLL.root;  
+            fromLL.root = nullptr; 
+        }
+        return *this;
+    }
     /* */
 
     void insertAtBeginning(int val) {

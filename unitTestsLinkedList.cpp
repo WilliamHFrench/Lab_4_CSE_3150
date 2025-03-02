@@ -219,3 +219,55 @@ TEST_CASE("PointerJumper"){
   CHECK(secondNode->next == lastNode);
   CHECK(thirdNode->next == lastNode);
 }
+
+TEST_CASE("Testing Move Constructor"){
+  LinkedList l1;
+  
+  l1.insertAtBeginning(3);
+  l1.insertAtBeginning(2);
+  l1.insertAtBeginning(1);
+
+  Node * firstNode = l1.root;
+  Node * secondNode = l1.root-> next;
+  Node * thirdNode = secondNode-> next;
+
+  LinkedList l2 = move(l1);
+
+  CHECK(l1.root == nullptr);
+  CHECK(l2.root == firstNode);
+  CHECK(l2.root-> next == secondNode);
+  CHECK(l2.root-> next->next == thirdNode);
+
+}
+
+TEST_CASE("Testing Move Assignment Operator"){
+  LinkedList l1, l2;
+  
+  l1.insertAtBeginning(3);
+  l1.insertAtBeginning(2);
+  l1.insertAtBeginning(1);
+
+  l2.insertAtBeginning(3);
+  l2.insertAtBeginning(2);
+  l2.insertAtBeginning(1);
+
+  Node * firstNode = l1.root;
+  Node * secondNode = l1.root-> next;
+  Node * thirdNode = secondNode-> next;
+
+  CHECK(l2.root != firstNode);
+  CHECK(l2.root-> next != secondNode);
+  CHECK(l2.root-> next->next != thirdNode);
+
+  l2 = move(l1);
+
+  CHECK(l1.root == nullptr);
+  CHECK(l2.root == firstNode);
+  CHECK(l2.root-> next == secondNode);
+  CHECK(l2.root-> next->next == thirdNode);
+
+  l2 = move(l2);
+
+  CHECK(l2.root != nullptr);
+
+}
