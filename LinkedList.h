@@ -41,7 +41,16 @@ class LinkedList {
     }
     
     LinkedList& operator=(LinkedList&& fromLL) noexcept {
-        if (this != &fromLL) {              
+        if (this != &fromLL) {           
+            if(this->root != nullptr){
+                Node* current = this->root;
+                while(current && current->next != current){
+                    Node* temp = current;
+                    current = current->next;
+                    delete(temp);
+                }
+                this->root = nullptr;
+            }
             root = fromLL.root;  
             fromLL.root = nullptr; 
         }
